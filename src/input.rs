@@ -74,6 +74,7 @@ pub trait ActionContext {
     fn reset_font_size(&mut self);
     fn scroll(&mut self, scroll: Scroll);
     fn clear_history(&mut self);
+    fn toggle_fullscreen(&mut self);
     fn hide_window(&mut self);
     fn url(&self, _: Point<usize>) -> Option<String>;
 }
@@ -195,6 +196,9 @@ pub enum Action {
     /// Run given command
     Command(String, Vec<String>),
 
+    /// Toggles between windowed and fullscreen mode
+    ToggleFullscreen,
+
     /// Hides the Alacritty window
     Hide,
 
@@ -261,6 +265,9 @@ impl Action {
                         warn!("couldn't run command: {}", err);
                     },
                 }
+            },
+            Action::ToggleFullscreen => {
+                ctx.toggle_fullscreen();
             },
             Action::Hide => {
                 ctx.hide_window();
@@ -858,6 +865,8 @@ mod tests {
         fn reset_font_size(&mut self) {
         }
         fn clear_history(&mut self) {
+        }
+        fn toggle_fullscreen(&mut self) {
         }
         fn hide_window(&mut self) {
         }
