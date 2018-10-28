@@ -71,6 +71,7 @@ pub struct Window {
     event_loop: EventsLoop,
     window: glutin::GlWindow,
     cursor_visible: bool,
+    fullscreen: bool,
 
     /// Whether or not the window is the focused window.
     pub is_focused: bool,
@@ -244,6 +245,7 @@ impl Window {
             event_loop,
             window,
             cursor_visible: true,
+            fullscreen: false,
             is_focused: false,
         };
 
@@ -298,6 +300,15 @@ impl Window {
     #[inline]
     pub fn resize(&self, width: u32, height: u32) {
         self.window.resize(width, height);
+    }
+
+    #[inline]
+    pub fn toggle_fullscreen(&self) {
+        if self.fullscreen {
+            self.window.set_fullscreen(Some(self.window.get_current_monitor()));
+        } else {
+            self.window.set_fullscreen(None);
+        }
     }
 
     /// Block waiting for events
